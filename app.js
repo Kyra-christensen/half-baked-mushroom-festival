@@ -1,6 +1,6 @@
 // import functions and grab DOM elements
 import { renderMushroom, renderFriend } from './render-utils.js';
-import findFriendByName from './data-utils.js';
+import {findFriendByName} from './data-utils.js';
 
 const friendsEl = document.querySelector('.friends');
 const friendInputEl = document.getElementById('friend-input');
@@ -33,12 +33,18 @@ const friendData = [
 
 addFriendButton.addEventListener('click', () => {
     // get the name from the input
+    const friendName = friendInputEl.value;
     // create a new friend object
-    
+    const newFriend = {
+        name: friendName,
+        satisfaction: Math.ceil(Math.random() * 3),
+    };
     // push it into the friends state array, passed in as an argument
-
+    friendData.push(newFriend);
     // reset the input
+    friendInputEl.textContent = '';
     // display all the friends (use a function here)
+    displayFriends();
 });
 
 
@@ -56,11 +62,20 @@ addMushroomButton.addEventListener('click', () => {
 
 function displayFriends() {
     // clear out the friends in DOM
-
+    friendsEl.textContent = '';
     // for each friend in state . . .
     for (let friend of friendData) {
         const friendEl = renderFriend(friend);
 
+        if (friend.satisfaction < 3) {
+            friendsEl.addEventListener('click', () => {
+            if (mushroomCount === 0)
+                alert('Not enough mushrooms, time to go hunting!');
+            } else {
+                friend.satisfaction++,
+            }    
+        });
+        
         // this is a clickable list, so . . .
         //     add an event listener to each friend
         //         on click, go find the clicked friend in state
@@ -71,16 +86,18 @@ function displayFriends() {
         //             then display your friends and mushrooms with the updated state
     
         // append the friendEl to the friends list in DOM
-    }
+    };
     
 }
 
 
 function displayMushrooms() { 
     // clear out the mushroom div
-
+    mushroomsEl.textContent = '';
     for (let i = 0; i < mushroomCount; i++) { 
         // for each mushroom in your mushroom state, render and append a mushroom
+        const mushrooms = renderMushroom();
+        mushroomsEl.append(mushrooms);
     }
 }
 
