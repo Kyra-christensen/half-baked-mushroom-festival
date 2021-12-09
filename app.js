@@ -1,6 +1,6 @@
 // import functions and grab DOM elements
 import { renderMushroom, renderFriend } from './render-utils.js';
-import {findFriendByName} from './data-utils.js';
+import { findFriendByName } from './data-utils.js';
 
 const friendsEl = document.querySelector('.friends');
 const friendInputEl = document.getElementById('friend-input');
@@ -66,28 +66,32 @@ function displayFriends() {
     // for each friend in state . . .
     for (let friend of friendData) {
         const friendEl = renderFriend(friend);
-
-        if (friend.satisfaction < 3) {
-            friendsEl.addEventListener('click', () => {
-            if (mushroomCount === 0)
-                alert('Not enough mushrooms, time to go hunting!');
-            } else {
-                friend.satisfaction++,
-            }    
-        });
-        
-        // this is a clickable list, so . . .
-        //     add an event listener to each friend
-        //         on click, go find the clicked friend in state
-        
-        //         and if the friend's satisfaction level is below 3 and you have mushrooms left
-        //             increment the friends satisfaction and decrement your mushrooms
-        //             mushroomCount--;
-        //             then display your friends and mushrooms with the updated state
-    
-        // append the friendEl to the friends list in DOM
-    };
-    
+    // this is a clickable list, so . . .
+    //     add an event listener to each friend
+        //         on click, go find the clicked friend in state    
+        if (friend.satisfaction > 0) {
+            friendEl.addEventListener('click', () => {
+                findFriendByName(friend.name, friendData);
+                // and if the friend's satisfaction level is below 3 and you have mushrooms left
+                if (friend.satisfaction < 3, mushroomCount > 0){
+                // increment the friends satisfaction and decrement your mushrooms mushroomCount--;               
+                    friend.satisfaction++;
+                    mushroomCount--;
+                }
+                if (friend.satisfaction === 3) {
+                    alert('Can not give ' + friend.name + ' anymore mushrooms!');
+                }
+                if (mushroomCount === 0) {
+                    alert('No more mushrooms! Time to go hunting!');
+                }
+                // then display your friends and mushrooms with the updated state
+                displayFriends();
+                displayMushrooms();
+            });    
+        }
+         // append the friendEl to the friends list in DOM
+        friendsEl.append(friendEl);
+    }
 }
 
 
