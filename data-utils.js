@@ -1,6 +1,6 @@
-export function findFriendByName(name, friends) {
+export function findFriendByName(name, friendData) {
     // iterate through the friends
-    for (let friend of friends) {
+    for (let friend of friendData) {
         if (friend.name === name) {
             return friend;
         }
