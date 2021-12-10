@@ -35,14 +35,28 @@ addFriendButton.addEventListener('click', () => {
     // get the name from the input
     const friendName = friendInputEl.value;
     // create a new friend object
-    const newFriend = {
+    const friend = {
         name: friendName,
-        satisfaction: Math.ceil(Math.random() * 3),
+        satisfaction: 0,
     };
+   
+
+    const defaultNameArray = [
+        'Steve',
+        'Alan',
+        'Joy'
+    ];
+
+    if (friendInputEl.value === '') {
+        const defaultNameFriend = getRandomItem(defaultNameArray);
+        friend.name = defaultNameFriend;
+        
+    }
     // push it into the friends state array, passed in as an argument
-    friendData.push(newFriend);
+    friendData.push(friend);
+    // friendData.push(defaultName);
     // reset the input
-    friendInputEl.textContent = '';
+    friendInputEl.value = '';
     // display all the friends (use a function here)
     displayFriends();
 });
@@ -69,7 +83,7 @@ function displayFriends() {
     // this is a clickable list, so . . .
     //     add an event listener to each friend
         //         on click, go find the clicked friend in state    
-        if (friend.satisfaction > 0) {
+        if (friend.satisfaction >= 0) {
             friendEl.addEventListener('click', () => {
                 findFriendByName(friend.name, friendData);
                 // and if the friend's satisfaction level is below 3 and you have mushrooms left
@@ -103,6 +117,11 @@ function displayMushrooms() {
         const mushrooms = renderMushroom();
         mushroomsEl.append(mushrooms);
     }
+}
+
+function getRandomItem(arr) {
+    const index = Math.floor(Math.random() * arr.length);
+    return arr[index];
 }
 
 displayFriends();
